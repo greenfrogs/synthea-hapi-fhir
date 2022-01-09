@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  hapi-alpha:
+    image: "hapiproject/hapi:latest"
+    ports:
+      - "8090:8080"
+    volumes:
+      - hapi-data-alpha:/data/hapi
+    # environment:
+    #   SPRING_CONFIG_LOCATION: 'file:///data/hapi/application.yaml'
+  hapi-beta:
+    image: "hapiproject/hapi:latest"
+    ports:
+      - "8091:8080"
+    volumes:
+      - hapi-data-beta:/data/hapi
+    # environment:
+    #   SPRING_CONFIG_LOCATION: 'file:///data/hapi/application.yaml'
+  synthea:
+    build: ./synthea
+    depends_on:
+      - hapi-alpha
+      - hapi-beta
+volumes:
+    hapi-data-alpha:
+        external: true
+    hapi-data-beta:
+        external: true
